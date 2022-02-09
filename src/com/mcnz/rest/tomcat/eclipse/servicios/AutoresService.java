@@ -1,4 +1,4 @@
-package com.mcnz.rest.tomcat.eclipse;
+package com.mcnz.rest.tomcat.eclipse.servicios;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,15 +11,17 @@ import javax.ws.rs.core.Response;
 import com.mcnz.rest.tomcat.eclipse.conexion.ConexionController;
 import com.mcnz.rest.tomcat.eclipse.entidades.Autores;
 
-@Path("/")
-public class ScoreService {
+@Path("/autores")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class AutoresService {
 
+	private static ArrayList<Autores> listaAutores = new ArrayList<>();
+	
 	@GET
-	@Path("/autores")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAutores() {
-		Autores autor = new Autores();
-		ArrayList<Autores> listaAutores = new ArrayList<>();
+		Autores autor;
+		
 		ConexionController cc = new ConexionController();
 		cc.iniciarConexion();
 
@@ -30,6 +32,7 @@ public class ScoreService {
 			// Leer el ResultSet
 			while (rs.next()) {
 				//mensaje = rs.getString("ID") + " - " + rs.getString("nick") + "\n";
+				autor = new Autores();
 				autor.setId(rs.getInt("ID"));
 				autor.setNick(rs.getString("nick"));
 				listaAutores.add(autor);
@@ -41,40 +44,5 @@ public class ScoreService {
 
 		cc.cerrarConexion();
 		return Response.ok(listaAutores, MediaType.APPLICATION_JSON).build();
-	}
-
-	@GET
-	@Path("/score/losses")
-	@Produces("text/plain")
-	public int getLosses() {
-		return Score.LOSSES;
-	}
-
-	@GET
-	@Path("/score/ties")
-	@Produces("text/plain")
-	public int getTies() {
-		return Score.TIES;
-	}
-
-	@POST
-	@Path("/score/wins")
-	@Produces("text/plain")
-	public int increaseWins() {
-		return Score.WINS++;
-	}
-
-	@POST
-	@Path("/score/ties")
-	@Produces("text/plain")
-	public int increaseTies() {
-		return Score.WINS++;
-	}
-
-	@POST
-	@Path("/score/losses")
-	@Produces("text/plain")
-	public int increaseLosses() {
-		return Score.LOSSES++;
 	}
 }
