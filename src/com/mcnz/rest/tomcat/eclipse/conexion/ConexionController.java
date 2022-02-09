@@ -32,18 +32,36 @@ public class ConexionController {
 		}
 	}
 
-	public ResultSet ejecutarSentencia(String sentencia) {
-		Statement miStatement;
+	public ResultSet ejecutarConsulta(String sentencia) {
+		PreparedStatement miStatement = null;
 		ResultSet rs = null;
 		if (conexion != null) {
 			try {
-				miStatement = conexion.createStatement();
-				rs = miStatement.executeQuery(sentencia);
+				miStatement = conexion.prepareStatement(sentencia);
+				rs = miStatement.executeQuery();
+				System.out.println("Consulta realizada con exito");
+				
 			} catch (SQLException e) {
-				System.out.println("Error al ejecutar la sentencia SQL");
+				System.out.println("Error al ejecutar la consulta SQL");
 				e.printStackTrace();
 			}
 		}
 		return rs;
+	}
+	
+	public int ejecutarUpdate(String sentencia) {
+		PreparedStatement miStatement = null;
+		int row = 0;
+		if (conexion != null) {
+			try {
+				miStatement = conexion.prepareStatement(sentencia);
+				row = miStatement.executeUpdate();
+				System.out.println("Consulta de actualizacion realizada con exito");
+			} catch (SQLException e) {
+				System.out.println("Error al ejecutar la actualizacion SQL");
+				e.printStackTrace();
+			}
+		}
+		return row;
 	}
 }
