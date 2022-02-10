@@ -57,7 +57,6 @@ public class AutoresService {
 
 		// Ejecutar sentencia SQL
 		String consulta = "SELECT * FROM autores WHERE ID=" + autorId + ";";
-		System.out.println(consulta);
 		ResultSet rs = cc.ejecutarConsulta(consulta);
 
 		try {
@@ -113,5 +112,23 @@ public class AutoresService {
 		}
 		
 		return Response.status(Status.OK).entity("Autor insertado").build();
+	}
+	
+	@PUT
+	@Path("{autorId}")
+	public Response actualizarAutores(@PathParam("autorId") int autorId, Autores autor) {
+		ConexionController cc = new ConexionController();
+		int rs = 0;
+		cc.iniciarConexion();
+
+		rs = cc.ejecutarUpdate("UPDATE autores SET nick='" + autor.getNick() + "' WHERE ID=" + autorId);
+		
+		cc.cerrarConexion();
+		
+		if (rs == 0) {
+			return Response.status(Status.BAD_REQUEST).entity("Error al actualizar autor").build();
+		}
+		
+		return Response.status(Status.OK).entity("Autor actualizado").build();
 	}
 }
