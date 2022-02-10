@@ -17,10 +17,9 @@ import com.mcnz.rest.tomcat.eclipse.entidades.Autores;
 @Produces(MediaType.APPLICATION_JSON)
 public class AutoresService {
 
-	private static ArrayList<Autores> listaAutores = new ArrayList<>();
-
 	@GET
 	public Response getAutores() {
+		ArrayList<Autores> listaAutores = new ArrayList<>();
 		Autores autor;
 
 		ConexionController cc = new ConexionController();
@@ -51,7 +50,7 @@ public class AutoresService {
 	@GET
 	@Path("{autorId}")
 	public Response getAutores(@PathParam("autorId") int autorId) {
-		Autores autor;
+		Autores autor = null;
 
 		ConexionController cc = new ConexionController();
 		cc.iniciarConexion();
@@ -67,7 +66,6 @@ public class AutoresService {
 				autor = new Autores();
 				autor.setId(rs.getInt("ID"));
 				autor.setNick(rs.getString("nick"));
-				listaAutores.add(autor);
 			}
 
 		} catch (SQLException e) {
@@ -78,7 +76,7 @@ public class AutoresService {
 		}
 
 		cc.cerrarConexion();
-		return Response.ok(listaAutores, MediaType.APPLICATION_JSON).build();
+		return Response.ok(autor, MediaType.APPLICATION_JSON).build();
 	}
 
 	@DELETE
@@ -88,23 +86,6 @@ public class AutoresService {
 		int rs = 0;
 		cc.iniciarConexion();
 
-		//Connection conexion;
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			conexion = DriverManager.getConnection("jdbc:sqlite:/home/tsi/eclipse-workspace/tomcat-rest-eclipse/propuestas.db");
-//			System.out.println("Conexión con la Base de Datos realizada con éxito");
-////			String sql = "DELETE FROM a WHERE ID=?";
-////			PreparedStatement stmt = conexion.prepareStatement(sql);
-////			stmt.setInt(1, autorId);
-////			rs = stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			System.out.println("La conexión con la Base de Datos ha fallado");
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			System.out.println("Error al cargar el driver sqlite");
-//			e.printStackTrace();
-//		}
-		// Ejecutar sentencia SQL
 		rs = cc.ejecutarUpdate("DELETE FROM autores WHERE ID=" + autorId);
 
 		
@@ -115,5 +96,22 @@ public class AutoresService {
 		}
 		
 		return Response.status(Status.OK).entity("Autor eliminado").build();
+	}
+	
+	@POST
+	public Response crearAutores(Autores autor) {
+		ConexionController cc = new ConexionController();
+		int rs = 0;
+		cc.iniciarConexion();
+
+		rs = cc.ejecutarUpdate("INSERT INTO autores (ID, nick) VALUES (" + autor.getId() + ", '" + autor.getNick() + "');");
+		
+		cc.cerrarConexion();
+		
+		if (rs == 0) {
+			return Response.status(Status.BAD_REQUEST).entity("Error al insertar autor").build();
+		}
+		
+		return Response.status(Status.OK).entity("Autor insertado").build();
 	}
 }

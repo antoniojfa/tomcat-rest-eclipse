@@ -60,6 +60,9 @@ public class ConexionController {
 			} catch (SQLException e) {
 				System.out.println("Error al ejecutar la actualizacion SQL");
 				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println("Error al ejecutar la actualizacion SQL");
+				e.printStackTrace();
 			}
 		}
 		return row;
