@@ -5,6 +5,7 @@ public class Propuestas {
 	private int id;
 	private String titulo;
 	private String idioma;
+	private String fecha;
 	private int idAutor;
 	
 	
@@ -39,6 +40,14 @@ public class Propuestas {
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
 	}
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 	public int getIdAutor() {
 		return idAutor;
 	}
