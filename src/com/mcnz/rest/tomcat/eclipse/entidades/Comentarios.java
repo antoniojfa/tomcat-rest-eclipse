@@ -4,6 +4,9 @@ public class Comentarios {
 
 	private int id;
 	private String comentario;
+	private String fecha;
+	private int likes;
+	private int dislikes;
 	private int idComentarioPadre;
 	private int idPropuesta;
 	private int idAutor;
@@ -12,10 +15,13 @@ public class Comentarios {
 		super();
 	}	
 	
-	public Comentarios(int id, String comentario, int idComentarioPadre, int idPropuesta, int idAutor) {
+	public Comentarios(int id, String comentario, String fecha, int likes, int dislikes, int idComentarioPadre, int idPropuesta, int idAutor) {
 		super();
 		this.id = id;
 		this.comentario = comentario;
+		this.fecha = fecha;
+		this.likes = likes;
+		this.dislikes =  dislikes;
 		this.idComentarioPadre = idComentarioPadre;
 		this.idPropuesta = idPropuesta;
 		this.idAutor = idAutor;
@@ -33,6 +39,30 @@ public class Comentarios {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(int dislikes) {
+		this.dislikes = dislikes;
+	}
+
 	public int getIdComentarioPadre() {
 		return idComentarioPadre;
 	}
