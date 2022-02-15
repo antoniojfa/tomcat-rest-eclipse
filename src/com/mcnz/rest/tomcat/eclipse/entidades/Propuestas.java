@@ -14,11 +14,12 @@ public class Propuestas {
 		super();
 	}
 	
-	public Propuestas(int id, String titulo, String idioma, int idAutor) {
+	public Propuestas(int id, String titulo, String idioma, String fecha, int idAutor) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.idioma = idioma;
+		this.fecha = fecha;
 		this.idAutor = idAutor;
 	}
 
